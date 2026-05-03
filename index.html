@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soul Awakening | Heaven's RNG</title>
+    <title>Soul Awakening | Xianxia Evolution</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@300;400;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -11,42 +11,48 @@
 <body>
     <div id="menu-overlay" onclick="closeAllModals()"></div>
 
+    <!-- HELP NEXUS MODAL -->
     <div id="help-modal" class="modal">
         <div class="modal-inner">
             <h3 class="gold-text"><i class="ph ph-scroll"></i> Path to Immortality</h3>
             <div class="help-grid">
                 <div class="help-item">
-                    <strong><i class="ph ph-hourglass-high"></i> The Great Cycle</strong>
-                    <p>Every 5 minutes of real time is 1 year of life. You must ascend realms to extend your lifespan.</p>
+                    <strong><i class="ph ph-steps"></i> 24 Realms</strong>
+                    <p>The journey spans 12 Mortal realms and 12 Immortal realms, each divided into Early, Mid, Late, and Great Circle stages.</p>
                 </div>
                 <div class="help-item">
-                    <strong><i class="ph ph-wind"></i> Cultivation</strong>
-                    <p>Refining Qi fills your dantian. Once full, you may attempt to break through to the next realm.</p>
+                    <strong><i class="ph ph-lightning"></i> Heavenly Tribulation</strong>
+                    <p>Transitioning to the Upper Realm requires surviving the Nine-Fold Lightning Tribulation and the Heart Demon Trial[cite: 1].</p>
                 </div>
                 <div class="help-item">
-                    <strong><i class="ph ph-lightning"></i> Ascension Risk</strong>
-                    <p>Breakthroughs are dangerous. Success increases power; failure drains Qi and can damage your foundation.</p>
-                </div>
-                <div class="help-item">
-                    <strong><i class="ph ph-sword"></i> Fortune & Danger</strong>
-                    <p>Explore to find Spirit Stones or encounter rivals. Your Combat Power determines survival in duels.</p>
+                    <strong><i class="ph ph-atom"></i> Immortal Essence</strong>
+                    <p>In the Upper Realm, Qi is replaced by Immortal Essence (Ei) at a 1000:1 conversion rate[cite: 1].</p>
                 </div>
             </div>
-            <button class="action-btn" onclick="toggleHelp()" style="margin-top: 25px; width: 100%;">Return to Path</button>
+            <button class="action-btn" onclick="toggleHelp()" style="margin-top: 20px; width: 100%;">Return to Path</button>
         </div>
     </div>
 
+    <!-- TRIBULATION OVERLAY -->
+    <div id="tribulation-modal" class="modal">
+        <div class="modal-inner" style="text-align: center;">
+            <h3 class="gold-text"><i class="ph ph-cloud-lightning"></i> Nine-Fold Tribulation</h3>
+            <p>The Heavens test your foundation. Endure the lightning to shatter the void[cite: 1].</p>
+            <div id="wave-counter" style="font-size: 1.2rem; margin: 15px 0;">Wave: 1 / 9</div>
+            <div class="bar-bg"><div id="tribulation-health" class="bar-fill age" style="width: 100%"></div></div>
+            <button id="endure-btn" class="action-btn" style="margin-top: 20px; width: 100%;">Resist Lightning</button>
+        </div>
+    </div>
+
+    <!-- SIDE MENU -->
     <aside id="side-menu">
         <div class="menu-inner">
             <header class="menu-header">
                 <i class="ph ph-eye-closed gold-text"></i>
                 <h3 class="menu-title">Inner Eye</h3>
             </header>
-            <p class="menu-sub">Soul Statistics & Lineage</p>
             <ul id="extra-stats" class="stat-list"></ul>
-            <button class="close-btn" onclick="toggleMenu()">
-                <i class="ph ph-x"></i> Close Archive
-            </button>
+            <button class="close-btn" onclick="toggleMenu()">Close Archive</button>
         </div>
     </aside>
 
@@ -58,16 +64,20 @@
             </div>
 
             <div class="stat-card">
-                <label><i class="ph ph-scroll"></i> Current Realm</label>
+                <label><i class="ph ph-globe-hemisphere-east"></i> Plane</label>
+                <div id="plane-display" class="value">Lower Realm</div>
+            </div>
+
+            <div class="stat-card">
+                <label><i class="ph ph-scroll"></i> Realm & Stage</label>
                 <div id="realm-display" class="value gold-text">Awaiting Birth</div>
-                <!-- Poetic realm title from lore.js -->
-                <div id="realm-subtitle" class="realm-subtitle"></div>
+                <div id="stage-display" style="font-size: 0.7rem; color: #666; margin-top: 5px;">Stage: None</div>
             </div>
 
             <div class="gauges">
                 <div class="stat-card">
                     <div class="label-row">
-                        <label><i class="ph ph-wind"></i> Yuan Qi</label>
+                        <label id="energy-label"><i class="ph ph-wind"></i> Yuan Qi</label>
                         <span id="qi-count" class="count-text">0 / 100</span>
                     </div>
                     <div class="bar-bg"><div id="qi-fill" class="bar-fill"></div></div>
@@ -84,42 +94,24 @@
             </div>
 
             <div class="utility-grid">
-                <button class="util-box" onclick="toggleMenu()">
-                    <i class="ph ph-fingerprint"></i>
-                    <span>Stats</span>
-                </button>
-                <button class="util-box" onclick="toggleHelp()">
-                    <i class="ph ph-info"></i>
-                    <span>Help</span>
-                </button>
+                <button class="util-box" onclick="toggleMenu()"><i class="ph ph-fingerprint"></i><span>Stats</span></button>
+                <button class="util-box" onclick="toggleHelp()"><i class="ph ph-info"></i><span>Help</span></button>
             </div>
 
             <div class="footer-links">
-                <button class="rebirth-btn" onclick="location.reload()">
-                    <i class="ph ph-arrows-counter-clockwise"></i> Reincarnate
-                </button>
-                <a href="https://thana-studios.github.io/" class="back-link">Back to Hub</a>
+                <button class="rebirth-btn" onclick="location.reload()"><i class="ph ph-arrows-counter-clockwise"></i> Reincarnate</button>
             </div>
         </aside>
 
-        <main id="log-container">
-        </main>
+        <main id="log-container"></main>
 
         <nav id="action-bar" style="display: none;">
-            <button class="action-btn" onclick="meditate()">
-                <i class="ph ph-leaf"></i> Cultivate
-            </button>
-            <button class="action-btn" onclick="explore()">
-                <i class="ph ph-map-trifold"></i> Explore
-            </button>
-            <button class="action-btn breakthrough" onclick="breakthrough()">
-                <i class="ph ph-lightning"></i> Ascend
-            </button>
+            <button class="action-btn" onclick="meditate()"><i class="ph ph-leaf"></i> Cultivate</button>
+            <button class="action-btn" onclick="explore()"><i class="ph ph-map-trifold"></i> Explore</button>
+            <button class="action-btn breakthrough" onclick="breakthrough()"><i class="ph ph-lightning"></i> Breakthrough</button>
         </nav>
     </div>
 
-    <!-- Lore system must load before script.js -->
-    <script src="lore.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
