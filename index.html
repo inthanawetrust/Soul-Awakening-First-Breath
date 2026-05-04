@@ -1,125 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soul Awakening | Heaven's RNG</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@300;400;900&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Soul Awakening: First Breath — Xianxia Evolution</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Icons (optional) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div id="menu-overlay" onclick="closeAllModals()"></div>
+  <div id="game-container">
+    
+    <!-- LEFT PANEL: Status & Stats -->
+    <aside id="status-panel">
+      <header class="brand-header">
+        <div class="studio-name">Thana Studios</div>
+        <h1 class="game-title">Soul Awakening</h1>
+      </header>
 
-    <div id="help-modal" class="modal">
-        <div class="modal-inner">
-            <h3 class="gold-text"><i class="ph ph-scroll"></i> Path to Immortality</h3>
-            <div class="help-grid">
-                <div class="help-item">
-                    <strong><i class="ph ph-hourglass-high"></i> The Great Cycle</strong>
-                    <p>Every 5 minutes of real time is 1 year of life. You must ascend realms to extend your lifespan.</p>
-                </div>
-                <div class="help-item">
-                    <strong><i class="ph ph-wind"></i> Cultivation</strong>
-                    <p>Refining Qi fills your dantian. Once full, you may attempt to break through to the next realm.</p>
-                </div>
-                <div class="help-item">
-                    <strong><i class="ph ph-lightning"></i> Ascension Risk</strong>
-                    <p>Breakthroughs are dangerous. Success increases power; failure drains Qi and can damage your foundation.</p>
-                </div>
-                <div class="help-item">
-                    <strong><i class="ph ph-sword"></i> Fortune & Danger</strong>
-                    <p>Explore to find Spirit Stones or encounter rivals. Your Combat Power determines survival in duels.</p>
-                </div>
-            </div>
-            <button class="action-btn" onclick="toggleHelp()" style="margin-top: 25px; width: 100%;">Return to Path</button>
-        </div>
-    </div>
+      <!-- Plane Badge -->
+      <div id="plane-badge" class="plane-badge mortal">MORTAL</div>
 
-    <aside id="side-menu">
-        <div class="menu-inner">
-            <header class="menu-header">
-                <i class="ph ph-eye-closed gold-text"></i>
-                <h3 class="menu-title">Inner Eye</h3>
-            </header>
-            <p class="menu-sub">Soul Statistics & Lineage</p>
-            <ul id="extra-stats" class="stat-list"></ul>
-            <button class="close-btn" onclick="toggleMenu()">
-                <i class="ph ph-x"></i> Close Archive
-            </button>
+      <!-- Realm Display -->
+      <div class="realm-display">
+        <div class="realm-name" id="realm-display">Awaiting Birth</div>
+        <div class="realm-subtitle" id="realm-subtitle">The Void Before</div>
+        <div class="stage-indicators" id="stage-indicators">
+          <!-- Dynamically populated -->
         </div>
+      </div>
+
+      <!-- Qi / Essence Resources -->
+      <div class="stat-card">
+        <div class="label-row">
+          <label><i>⚡</i> Yuan Qi</label>
+          <span class="count-text" id="qi-count">0 / 100</span>
+        </div>
+        <div class="bar-bg"><div class="bar-fill" id="qi-fill" style="width:0%"></div></div>
+      </div>
+      
+      <div class="stat-card" id="essence-card" style="display:none;">
+        <div class="label-row">
+          <label><i>💎</i> Immortal Essence</label>
+          <span class="count-text essence-text" id="essence-count">0 Essence</span>
+        </div>
+        <div class="bar-bg"><div class="bar-fill essence" id="essence-fill" style="width:0%"></div></div>
+      </div>
+
+      <!-- Lifespan -->
+      <div class="stat-card">
+        <div class="label-row">
+          <label><i>⏳</i> Lifespan</label>
+          <span class="count-text" id="age-count">0 / 0</span>
+        </div>
+        <div class="bar-bg"><div class="bar-fill age" id="age-fill" style="width:0%"></div></div>
+        <div class="timer-display" id="time-countdown">Cycle Ends: 5:00</div>
+      </div>
+
+      <!-- Utility Buttons -->
+      <div class="utility-grid">
+        <div class="util-box" id="stats-btn" onclick="toggleMenu()">
+          <i>📊</i> Stats
+        </div>
+        <div class="util-box" id="help-btn" onclick="toggleHelp()">
+          <i>❓</i> Help
+        </div>
+        <div class="util-box" id="sect-btn" style="display:none;">
+          <i>🏯</i> Sect
+        </div>
+        <div class="util-box" id="manor-btn" style="display:none;">
+          <i>🏡</i> Manor
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="footer-links">
+        <button class="rebirth-btn" id="rebirth-btn" style="display:none;" onclick="reincarnate()">
+          <i>🔄</i> Reincarnate
+        </button>
+        <a href="https://thana-studios.github.io" class="back-link" target="_blank">← Back to Hub</a>
+      </footer>
     </aside>
 
-    <div id="game-container">
-        <aside id="status-panel">
-            <div class="brand-header">
-                <span class="studio-name">Thana Studios</span>
-                <h2 class="game-title">Soul Awakening</h2>
-            </div>
+    <!-- MAIN: Log Container -->
+    <main id="log-container">
+      <!-- Log entries dynamically inserted here -->
+    </main>
 
-            <div class="stat-card">
-                <label><i class="ph ph-scroll"></i> Current Realm</label>
-                <div id="realm-display" class="value gold-text">Awaiting Birth</div>
-                <!-- Poetic realm title from lore.js -->
-                <div id="realm-subtitle" class="realm-subtitle"></div>
-            </div>
+    <!-- ACTION BAR -->
+    <footer id="action-bar" style="display:none;">
+      <button class="action-btn" id="meditate-btn">
+        <i>🧘</i> Cultivate
+      </button>
+      <button class="action-btn" id="explore-btn">
+        <i>🗺️</i> Explore
+      </button>
+      <button class="action-btn breakthrough" id="breakthrough-btn">
+        <i>✨</i> Ascend
+      </button>
+      <button class="action-btn" id="grotto-btn" style="display:none;">
+        <i>🌀</i> Grotto
+      </button>
+      <button class="action-btn" id="jade-btn">
+        <i>🪙</i> Store
+      </button>
+      <button class="action-btn" id="pass-btn">
+        <i>🎁</i> Pass
+      </button>
+    </footer>
 
-            <div class="gauges">
-                <div class="stat-card">
-                    <div class="label-row">
-                        <label><i class="ph ph-wind"></i> Yuan Qi</label>
-                        <span id="qi-count" class="count-text">0 / 100</span>
-                    </div>
-                    <div class="bar-bg"><div id="qi-fill" class="bar-fill"></div></div>
-                </div>
+  </div>
 
-                <div class="stat-card">
-                    <div class="label-row">
-                        <label><i class="ph ph-hourglass-high"></i> Lifespan</label>
-                        <span id="age-count" class="count-text">0 / 0</span>
-                    </div>
-                    <div class="bar-bg"><div id="age-fill" class="bar-fill age"></div></div>
-                    <div id="time-countdown" class="timer-display">Cycle Ends: 5:00</div>
-                </div>
-            </div>
+  <!-- OVERLAY for modals -->
+  <div id="menu-overlay" onclick="closeAllModals()"></div>
 
-            <div class="utility-grid">
-                <button class="util-box" onclick="toggleMenu()">
-                    <i class="ph ph-fingerprint"></i>
-                    <span>Stats</span>
-                </button>
-                <button class="util-box" onclick="toggleHelp()">
-                    <i class="ph ph-info"></i>
-                    <span>Help</span>
-                </button>
-            </div>
-
-            <div class="footer-links">
-                <button class="rebirth-btn" onclick="location.reload()">
-                    <i class="ph ph-arrows-counter-clockwise"></i> Reincarnate
-                </button>
-                <a href="https://thana-studios.github.io/" class="back-link">Back to Hub</a>
-            </div>
-        </aside>
-
-        <main id="log-container">
-        </main>
-
-        <nav id="action-bar" style="display: none;">
-            <button class="action-btn" onclick="meditate()">
-                <i class="ph ph-leaf"></i> Cultivate
-            </button>
-            <button class="action-btn" onclick="explore()">
-                <i class="ph ph-map-trifold"></i> Explore
-            </button>
-            <button class="action-btn breakthrough" onclick="breakthrough()">
-                <i class="ph ph-lightning"></i> Ascend
-            </button>
-        </nav>
+  <!-- HELP MODAL -->
+  <div id="help-modal" class="modal">
+    <div class="modal-inner">
+      <h3>Path to Immortality</h3>
+      <p style="color:#777;font-size:0.85rem;">The Great Cycle • Cultivation • Ascension</p>
+      
+      <div class="help-grid">
+        <div class="help-item">
+          <strong><i>⏳</i> The Great Cycle</strong>
+          Every 5 minutes real time = 1 year of life. Ascend realms to extend your lifespan.
+        </div>
+        <div class="help-item">
+          <strong><i>🧘</i> Cultivation</strong>
+          Refining Qi fills your dantian. Once full, attempt breakthrough to the next stage or realm.
+        </div>
+        <div class="help-item">
+          <strong><i>✨</i> Ascension Risk</strong>
+          Breakthroughs carry risk. Success increases power; failure drains resources. The World-Crossing Tribulation at Mortal Ascension is especially perilous.
+        </div>
+        <div class="help-item">
+          <strong><i>💎</i> Upper Realm</strong>
+          After crossing the Great Barrier, Qi is replaced by Immortal Essence. New mechanics: Divine Grottoes, Sect Ascendance, and Dao Fragments unlock.
+        </div>
+        <div class="help-item">
+          <strong><i>🪙</i> Premium Features</strong>
+          Immortal Jade purchases cosmetics, convenience items, and Manor upgrades. The Heavenly Path Pass offers seasonal rewards.
+        </div>
+      </div>
+      
+      <button class="close-btn" onclick="closeAllModals()">
+        <i>✕</i> Return to Path
+      </button>
     </div>
+  </div>
 
-    <!-- Lore system must load before script.js -->
-    <script src="lore.js"></script>
-    <script src="script.js"></script>
+  <!-- INNER EYE SIDE MENU -->
+  <aside id="side-menu">
+    <div class="menu-header">
+      <i style="font-size:1.2rem;">👁️</i>
+      <div>
+        <h3 class="menu-title">Inner Eye</h3>
+        <p class="menu-sub">Soul Statistics & Lineage</p>
+      </div>
+    </div>
+    
+    <ul class="stat-list" id="extra-stats">
+      <!-- Dynamically populated with stats + lore -->
+    </ul>
+    
+    <button class="close-btn" onclick="toggleMenu()">
+      <i>✕</i> Close Archive
+    </button>
+  </aside>
+
+  <!-- IMMORTAL JADE STORE MODAL -->
+  <div id="jade-store" class="modal">
+    <div class="modal-inner">
+      <h3>✨ Immortal Jade Store</h3>
+      <p class="jade-balance">Balance: <span id="jade-count">0</span> 🪙</p>
+      
+      <div class="store-grid" id="store-grid">
+        <!-- Items populated by JS -->
+      </div>
+      
+      <button class="close-btn" onclick="toggleJadeStore()">Close</button>
+    </div>
+  </div>
+
+  <!-- HEAVENLY PATH PASS MODAL -->
+  <div id="heavenly-pass" class="modal">
+    <div class="modal-inner">
+      <h3>🎁 Heavenly Path Pass</h3>
+      <div class="pass-header">
+        <div>Current Level</div>
+        <div class="pass-current" id="pass-current-level">1</div>
+      </div>
+      
+      <div class="pass-rewards" id="pass-rewards">
+        <!-- Rewards populated by JS -->
+      </div>
+      
+      <button class="close-btn" onclick="toggleHeavenlyPass()">Close</button>
+    </div>
+  </div>
+
+  <!-- SECT PANEL (popup) -->
+  <div id="sect-panel">
+    <div id="sect-panel-content">
+      <!-- Content rendered by JS -->
+    </div>
+  </div>
+
+  <!-- MANOR PANEL (popup) -->
+  <div id="manor-panel" class="modal" style="width:480px;">
+    <div class="modal-inner">
+      <h3>🏡 VIP Manor</h3>
+      <p style="color:#777;font-size:0.85rem;margin-bottom:15px;">Upgrade your cultivation sanctuary</p>
+      <div id="manor-content">
+        <!-- Upgrades rendered by JS -->
+      </div>
+      <button class="close-btn" onclick="toggleManorPanel()">Close</button>
+    </div>
+  </div>
+
+  <!-- Scripts: lore FIRST, then main -->
+  <script src="lore.js"></script>
+  <script src="script.js"></script>
+  
 </body>
 </html>
